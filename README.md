@@ -1,4 +1,4 @@
-# Rsync time backup
+# Rsync Time Backup
 
 This script offers Time Machine-style backup using rsync. It creates incremental backups of files and directories to the destination of your choice. The backups are structured in a way that makes it easy to recover any file at any point in time.
 
@@ -12,7 +12,7 @@ On macOS, it has a few disadvantages compared to Time Machine - in particular it
 
 ## Usage
 
-	Usage: rsync_tmbackup.sh [OPTION]... <[USER@HOST:]SOURCE> <[USER@HOST:]DESTINATION> [exclude-pattern-file]
+	Usage: rsync_timebackup.sh [OPTION]... <[USER@HOST:]SOURCE> <[USER@HOST:]DESTINATION> [exclude-pattern-file]
 
 	Options
 	 -p, --port           SSH port.
@@ -49,24 +49,24 @@ On macOS, it has a few disadvantages compared to Time Machine - in particular it
 	
 * Backup the home folder to backup_drive
 	
-		rsync_tmbackup.sh /home /mnt/backup_drive  
+		rsync_timebackup.sh /home /mnt/backup_drive  
 
 * Backup with exclusion list:
 	
-		rsync_tmbackup.sh /home /mnt/backup_drive excluded_patterns.txt
+		rsync_timebackup.sh /home /mnt/backup_drive excluded_patterns.txt
 
 * Backup to remote drive over SSH, on port 2222:
 
-		rsync_tmbackup.sh -p 2222 /home user@example.com:/mnt/backup_drive
+		rsync_timebackup.sh -p 2222 /home user@example.com:/mnt/backup_drive
 
 
 * Backup from remote drive over SSH:
 
-		rsync_tmbackup.sh user@example.com:/home /mnt/backup_drive
+		rsync_timebackup.sh user@example.com:/home /mnt/backup_drive
 
 * To mimic Time Machine's behaviour, a cron script can be setup to backup at regular interval. For example, the following cron job checks if the drive "/mnt/backup" is currently connected and, if it is, starts the backup. It does this check every 1 hour.
 		
-		0 */1 * * * if grep -qs /mnt/backup /proc/mounts; then rsync_tmbackup.sh /home /mnt/backup; fi
+		0 */1 * * * if grep -qs /mnt/backup /proc/mounts; then rsync_timebackup.sh /home /mnt/backup; fi
 
 ## Backup expiration logic
 
@@ -88,9 +88,9 @@ The script is designed so that only one backup operation can be active for a giv
 
 ## Rsync options
 
-To display the rsync options that are used for backup, run `./rsync_tmbackup.sh --rsync-get-flags`. It is also possible to add or remove options using the `--rsync-set-flags` option. For example, to exclude backing up permissions and groups:
+To display the rsync options that are used for backup, run `./rsync_timebackup.sh --rsync-get-flags`. It is also possible to add or remove options using the `--rsync-set-flags` option. For example, to exclude backing up permissions and groups:
 
-	rsync_tmbackup --rsync-set-flags "--numeric-ids --links --hard-links \
+	rsync_timebackup --rsync-set-flags "--numeric-ids --links --hard-links \
 	--one-file-system --archive --no-perms --no-groups --itemize-changes" /src /dest
 
 ## No automatic backup expiration
@@ -102,22 +102,12 @@ An option to disable the default behaviour to purge old backups when out of spac
 
 The script creates a backup in a regular directory so you can simply copy the files back to the original directory. You could do that with something like `rsync -aP /path/to/last/backup/ /path/to/restore/to/`. Consider using the `--dry-run` option to check what exactly is going to be copied. Use `--delete` if you also want to delete files that exist in the destination but not in the backup (obviously extra care must be taken when using this option).
 
-## Extensions
-
-* [rtb-wrapper](https://github.com/thomas-mc-work/rtb-wrapper): Allows creating backup profiles in config files. Handles both backup and restore operations.
-* [time-travel](https://github.com/joekerna/time-travel): Smooth integration into OSX Notification Center
-
-## TODO
-
-* Check source and destination file-system (`df -T /dest`). If one of them is FAT, use the --modify-window rsync parameter (see `man rsync`) with a value of 1 or 2
-* Add `--whole-file` arguments on Windows? See http://superuser.com/a/905415/73619
-* Minor changes (see TODO comments in the source).
-
 ## LICENSE
 
 The MIT License (MIT)
 
 Copyright (c) 2013-2018 Laurent Cozic
+Copyright (c) 2020 Eero Kaan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
