@@ -545,7 +545,7 @@ while : ; do
 
 	CMD="rsync"
 	if [ -n "$SSH_CMD" ]; then
-		if [ -n "$RSYNC_LEGACY_COMPRESS" ] ; then
+		if [[ $RSYNC_LEGACY_COMPRESS == "1" ]]; then
 			RSYNC_FLAGS="$RSYNC_FLAGS -zz"
 		else
 			RSYNC_FLAGS="$RSYNC_FLAGS --compress"
