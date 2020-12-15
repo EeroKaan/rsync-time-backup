@@ -50,7 +50,7 @@ On macOS, it has a few disadvantages compared to Time Machine - in particular it
 	
 * Backup the home folder to backup_drive
 	
-		rsync_timebackup.sh /home /mnt/backup_drive  
+		rsync_timebackup.sh /home /mnt/backup_drive
 
 * Backup with exclusion list:
 	
@@ -107,7 +107,7 @@ The script creates a backup in a regular directory so you can simply copy the fi
 
 The MIT License (MIT)
 
-Copyright (c) 2013-2018 Laurent Cozic
+Copyright (c) 2013-2018 Laurent Cozic\
 Copyright (c) 2020 Eero Kaan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

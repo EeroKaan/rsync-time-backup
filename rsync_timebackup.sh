@@ -277,6 +277,7 @@ EXPIRATION_STRATEGY="1:1 30:7 365:30"
 AUTO_EXPIRE="1"
 
 RSYNC_FLAGS="-D --numeric-ids --links --hard-links --one-file-system --itemize-changes --times --recursive --perms --owner --group --stats --human-readable"
+RSYNC_LEGACY_COMPRESS="0"
 
 while :; do
 	case $1 in
@@ -304,6 +305,9 @@ while :; do
 		--rsync-append-flags)
 			shift
 			RSYNC_FLAGS="$RSYNC_FLAGS $1"
+			;;
+		--rsync-legacy-compress)
+			RSYNC_LEGACY_COMPRESS="1"
 			;;
 		--strategy)
 			shift
@@ -541,7 +545,12 @@ while : ; do
 
 	CMD="rsync"
 	if [ -n "$SSH_CMD" ]; then
-		RSYNC_FLAGS="$RSYNC_FLAGS --compress"
+		if [ -n "$RSYNC_LEGACY_COMPRESS" ] ; then
+			RSYNC_FLAGS="$RSYNC_FLAGS -zz"
+		else
+			RSYNC_FLAGS="$RSYNC_FLAGS --compress"
+		fi
+
 		if [ -n "$ID_RSA" ] ; then
 			CMD="$CMD  -e 'ssh -p $SSH_PORT -i $ID_RSA -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
 		else
