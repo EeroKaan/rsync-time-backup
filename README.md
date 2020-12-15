@@ -1,14 +1,12 @@
 # Rsync Time Backup
 
-This script offers Time Machine-style backup using rsync. It creates incremental backups of files and directories to the destination of your choice. The backups are structured in a way that makes it easy to recover any file at any point in time.
+This script offers Time Machine Style Backup using rsync. It creates incremental backups of files and directories to the destination of your choice. The backups are structured in a way that makes it easy to recover any file at any point in time.
 
 It works on Linux, macOS and Windows (via WSL or Cygwin). The main advantage over Time Machine is the flexibility as it can backup from/to any filesystem and works on any platform. You can also backup, for example, to a Truecrypt drive without any problem.
 
-On macOS, it has a few disadvantages compared to Time Machine - in particular it does not auto-start when the backup drive is plugged (though it can be achieved using a launch agent), it requires some knowledge of the command line, and no specific GUI is provided to restore files. Instead files can be restored by using any file explorer, including Finder, or the command line.
-
 ## Installation
 
-	git clone https://github.com/laurent22/rsync-time-backup
+	git clone https://github.com/EeroKaan/rsync-time-backup.git
 
 ## Usage
 
@@ -97,8 +95,7 @@ To display the rsync options that are used for backup, run `./rsync_timebackup.s
 ## No automatic backup expiration
 
 An option to disable the default behaviour to purge old backups when out of space. This option is set with the `--no-auto-expire` flag.
-	
-	
+
 ## How to restore
 
 The script creates a backup in a regular directory so you can simply copy the files back to the original directory. You could do that with something like `rsync -aP /path/to/last/backup/ /path/to/restore/to/`. Consider using the `--dry-run` option to check what exactly is going to be copied. Use `--delete` if you also want to delete files that exist in the destination but not in the backup (obviously extra care must be taken when using this option).
